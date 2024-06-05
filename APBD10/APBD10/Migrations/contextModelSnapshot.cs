@@ -48,6 +48,22 @@ namespace APBD10.Migrations
                     b.HasKey("IdDoctor");
 
                     b.ToTable("Doctors");
+
+                    b.HasData(
+                        new
+                        {
+                            IdDoctor = 1,
+                            Email = "alice.smith@example.com",
+                            FirstName = "Alice",
+                            LastName = "Smith"
+                        },
+                        new
+                        {
+                            IdDoctor = 2,
+                            Email = "bob.johnson@example.com",
+                            FirstName = "Bob",
+                            LastName = "Johnson"
+                        });
                 });
 
             modelBuilder.Entity("APBD10.models.Medicament", b =>
@@ -76,6 +92,22 @@ namespace APBD10.Migrations
                     b.HasKey("IdMedicament");
 
                     b.ToTable("Medicaments");
+
+                    b.HasData(
+                        new
+                        {
+                            IdMedicament = 1,
+                            Description = "Pain reliever",
+                            Name = "Aspirin",
+                            Type = "Tablet"
+                        },
+                        new
+                        {
+                            IdMedicament = 2,
+                            Description = "Anti-inflammatory",
+                            Name = "Ibuprofen",
+                            Type = "Tablet"
+                        });
                 });
 
             modelBuilder.Entity("APBD10.models.Patient", b =>
@@ -103,6 +135,22 @@ namespace APBD10.Migrations
                     b.HasKey("IdPatient");
 
                     b.ToTable("Patients");
+
+                    b.HasData(
+                        new
+                        {
+                            IdPatient = 1,
+                            BirthDate = new DateTime(1980, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            FirstName = "John",
+                            LastName = "Doe"
+                        },
+                        new
+                        {
+                            IdPatient = 2,
+                            BirthDate = new DateTime(1985, 2, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            FirstName = "Jane",
+                            LastName = "Doe"
+                        });
                 });
 
             modelBuilder.Entity("APBD10.models.Prescription", b =>
@@ -132,28 +180,55 @@ namespace APBD10.Migrations
                     b.HasIndex("IdPatient");
 
                     b.ToTable("Prescriptions");
+
+                    b.HasData(
+                        new
+                        {
+                            IdPrescription = 1,
+                            Date = new DateTime(2023, 6, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DueDate = new DateTime(2023, 6, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IdDoctor = 1,
+                            IdPatient = 1
+                        });
                 });
 
             modelBuilder.Entity("APBD10.models.Prescription_Medicament", b =>
                 {
-                    b.Property<int>("IdMedicament")
-                        .HasColumnType("int");
-
                     b.Property<int>("IdPrescription")
                         .HasColumnType("int");
 
-                    b.Property<int>("Details")
-                        .HasMaxLength(100)
+                    b.Property<int>("IdMedicament")
                         .HasColumnType("int");
+
+                    b.Property<string>("Details")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<int?>("Dose")
                         .HasColumnType("int");
 
-                    b.HasKey("IdMedicament", "IdPrescription");
+                    b.HasKey("IdPrescription", "IdMedicament");
 
-                    b.HasIndex("IdPrescription");
+                    b.HasIndex("IdMedicament");
 
                     b.ToTable("PrescriptionMedicaments");
+
+                    b.HasData(
+                        new
+                        {
+                            IdPrescription = 1,
+                            IdMedicament = 1,
+                            Details = "Take one tablet daily",
+                            Dose = 100
+                        },
+                        new
+                        {
+                            IdPrescription = 1,
+                            IdMedicament = 2,
+                            Details = "Take two tablets daily",
+                            Dose = 200
+                        });
                 });
 
             modelBuilder.Entity("APBD10.models.Prescription", b =>

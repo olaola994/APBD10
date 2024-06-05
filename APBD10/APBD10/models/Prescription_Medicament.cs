@@ -15,7 +15,7 @@ public class Prescription_Medicament
     [ForeignKey(nameof(IdPrescription))]
     public Prescription Prescription { get; set; }
     
-    public int? Dose { get; set; }
+    public int Dose { get; set; }
     [MaxLength(100)]
-    public int Details{ get; set; }
+    public string Details{ get; set; }
 }

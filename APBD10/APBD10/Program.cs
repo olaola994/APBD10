@@ -1,4 +1,5 @@
 using APBD10.Data;
+using APBD10.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +11,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
 builder.Services.AddDbContext<context>(
     options => options.UseSqlServer("Name=ConnectionStrings:Default"));
+builder.Services.AddScoped<Service>();
 
 var app = builder.Build();
 
