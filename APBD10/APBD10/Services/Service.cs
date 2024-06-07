@@ -24,13 +24,13 @@ public class Service
         var doesPatientExist = await _context.Patients.FindAsync(request.Patient.IdPatient);
         if (doesPatientExist == null)
         {
-            var newPatient = new Patient()
+            doesPatientExist = new Patient()
             {
                 FirstName = request.Patient.FirstName,
                 LastName = request.Patient.LastName,
                 BirthDate = request.Patient.BirthDate
             };
-            _context.Patients.Add(newPatient);
+            _context.Patients.Add(doesPatientExist);
             await _context.SaveChangesAsync();
         }
         var doctor = await _context.Doctors.FindAsync(request.Doctor.IdDoctor);
