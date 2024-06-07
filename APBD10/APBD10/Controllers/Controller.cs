@@ -21,11 +21,11 @@ public class Controller : ControllerBase
     }
 
     [HttpPost]
-    public IActionResult AddPrescpription(PrescriptionDTO request)
+    public async Task<IActionResult> AddPrescpription(PrescriptionDTO request)
     {
         try
         {
-            var prescription = _services.AddPrescriptionToWarehouse(request);
+            var prescription = await _services.AddPrescriptionToWarehouse(request);
             return Ok();
         }
         catch (Exception e)

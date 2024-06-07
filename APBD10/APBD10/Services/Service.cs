@@ -19,7 +19,7 @@ public class Service
     public async Task<string> AddPrescriptionToWarehouse(PrescriptionDTO request)
     {
         if (request.MedicamentList.Count > 10) return "Error: A prescription can contain a maximum of 10 medicaments.";
-        if (request.DueDate >= request.Date) return "Error: Due date cannot be earlier than the prescription date.";
+        if (request.DueDate < request.Date) return "Error: Due date cannot be earlier than the prescription date.";
         
         var doesPatientExist = await _context.Patients.FindAsync(request.Patient.IdPatient);
         if (doesPatientExist == null)
@@ -30,7 +30,7 @@ public class Service
                 LastName = request.Patient.LastName,
                 BirthDate = request.Patient.BirthDate
             };
-            _context.Add(newPatient);
+            _context.Patients.Add(newPatient);
             await _context.SaveChangesAsync();
         }
         var doctor = await _context.Doctors.FindAsync(request.Doctor.IdDoctor);
@@ -42,7 +42,7 @@ public class Service
             DueDate = request.DueDate,
             IdPatient = doesPatientExist.IdPatient,
             IdDoctor = doctor.IdDoctor,
-            
+            PrescriptionMedicaments = new List<Prescription_Medicament>()
         };
         
 
@@ -55,9 +55,10 @@ public class Service
             }
             prescription.PrescriptionMedicaments.Add(new Prescription_Medicament
             {
-                Medicament = doesMedicamentExist,
+                IdMedicament = doesMedicamentExist.IdMedicament,
                 Dose = med.Dose,
-                Details = med.Description
+                Details = med.Description,
+                IdPrescription = prescription.IdPrescription
             });
             
         }
