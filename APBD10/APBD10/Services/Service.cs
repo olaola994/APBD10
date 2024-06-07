@@ -16,7 +16,7 @@ public class Service
         _context = context;
     }
 
-    public async Task<string> AddPrescriptionToWarehouse(PrescriptionDTO request)
+    public async Task<string> AddPrescription(PrescriptionDTO request)
     {
         if (request.MedicamentList.Count > 10) return "Error: A prescription can contain a maximum of 10 medicaments.";
         if (request.DueDate < request.Date) return "Error: Due date cannot be earlier than the prescription date.";

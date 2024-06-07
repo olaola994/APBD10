@@ -25,7 +25,7 @@ public class Controller : ControllerBase
     {
         try
         {
-            var prescription = await _services.AddPrescriptionToWarehouse(request);
+            var prescription = await _services.AddPrescription(request);
             return Ok();
         }
         catch (Exception e)
